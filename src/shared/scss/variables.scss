@@ -65,47 +65,48 @@ $accent-info: $green500;
 
 $background-blur: 10pt;
 
-html[theme="light"] {
-    $text-high-emphasis: $grey950;
-    $text-low-emphasis: $grey500;
-    $disabled: $grey400;
-    $borders: $grey300;
-    $input-bg: $grey200;
-    $reaction-bg-user: $grey100;
-    $app-bg: $grey50;
-    $bars-bg: $grey50;
-    $reaction-bg-you: $blue50;
-    $link-bg: $grey100;
-    $button-pressed-bg: $blue300;
+$transition-slow: .5s;
+$transition-mid-slow: .4s;
+$transition-normal: .3s;
+$transition-mid-fast: .2s;
+$transition-fast: .1s;
 
-    $highlight: $yellow100;
-    $overlay-light: #fcfcfc;
-    $overlay-dark: #ffffff;
-    $overlay: #000000;
-    $overlay-android: #bebebe;
+html[theme="light"] {
+    --text-high-emphasis: #{$grey950};
+    --text-low-emphasis: #{$grey500};
+    --disabled: #{$grey400};
+    --borders: #{$grey300};
+    --input-bg: #{$grey200};
+    --reaction-bg-user: #{$grey100};
+    --app-bg: #{$grey50};
+    --bars-bg: #{$grey50};
+    --reaction-bg-you: #{$blue50};
+    --link-bg: #{$grey100};
+    --button-pressed-bg: #{$blue300};
+
+    --highlight: #{$yellow100};
+    --overlay-light: #fcfcfc;
+    --overlay-dark: #ffffff;
+    --overlay: #000000;
+    --overlay-android: #bebebe;
 }
 
-html[theme="light"] {
-    $text-high-emphasis: $grey50;
-    $text-low-emphasis: $grey500;
-    $disabled: $grey600;
-    $borders: $grey700;
-    $input-bg: $grey800;
-    $reaction-bg-user: $grey900;
-    $app-bg: $grey950;
-    $bars-bg: $grey900;
-    $reaction-bg-you: $blue900;
-    $link-bg: $blue950;
-    $button-pressed-bg: $blue700;
+html[theme="dark"] {
+    --text-high-emphasis: #{$grey50};
+    --text-low-emphasis: #{$grey500};
+    --disabled: #{$grey600};
+    --borders: #{$grey700};
+    --input-bg: #{$grey800};
+    --reaction-bg-user: #{$grey900};
+    --app-bg: #{$grey950};
+    --bars-bg: #{$grey900};
+    --reaction-bg-you: #{$blue900};
+    --link-bg: #{$blue950};
+    --button-pressed-bg: #{$blue700};
 
-    $highlight: $yellow900;
-    $overlay-light: #000000;
-    $overlay-dark: #ffffff;
-    $overlay: #000000;
-    $overlay-android: #0a0a0a;
-
-    $accent-primary: $blue500;
-    $accent-primary-pressed: $blue600;
-    $accent-error: $red800;
-    $accent-info: $green500;
+    --highlight: #{$yellow900};
+    --overlay-light: #000000;
+    --overlay-dark: #ffffff;
+    --overlay: #000000;
+    --overlay-android: #0a0a0a;
 }
