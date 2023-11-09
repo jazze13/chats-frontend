@@ -1,4 +1,11 @@
 @import "normalize.css";
+@import "shared/scss/variables";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 :root {
     font-family: -apple-system, system-ui, BlinkMacSystemFont, Roboto, Helvetica, Arial, "Segoe UI", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";

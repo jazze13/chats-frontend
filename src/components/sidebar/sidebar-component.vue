@@ -2,8 +2,12 @@
 import InputUi from '../../ui/input/input-ui.vue';
 import { ref } from 'vue';
 import { Bars3Icon, MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
+import ChatComponent from '../../pages/chats/components/chat/chat-component.vue';
+import { useChatsStore } from '../../store/chats/chats-store.ts';
 
 const searchQuery = ref<string>('');
+
+const chatsStore = useChatsStore();
 </script>
 
 <template>
@@ -19,6 +23,18 @@ const searchQuery = ref<string>('');
                 </template>
             </input-ui>
         </header>
+
+        <nav>
+            <menu>
+                <chat-component
+                    v-for="chat in chatsStore.chats"
+                    :name="chat.name"
+                    :unread-count="0"
+                    :last-message-text="chat.lastMessageText"
+                    :last-message-time="chat.lastMessageTime"
+                />
+            </menu>
+        </nav>
     </aside>
 </template>
 

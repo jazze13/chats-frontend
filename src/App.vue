@@ -6,5 +6,4 @@
 
 <style lang="scss">
 @import './style';
-@import 'shared/scss/variables';
 </style>
