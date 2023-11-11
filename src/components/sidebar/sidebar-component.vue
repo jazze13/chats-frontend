@@ -30,8 +30,8 @@ const chatsStore = useChatsStore();
                     v-for="chat in chatsStore.chats"
                     :name="chat.name"
                     :unread-count="0"
-                    :last-message-text="chat.lastMessageText"
-                    :last-message-time="chat.lastMessageTime"
+                    :last-message-text="chat.lastMessage.body"
+                    :last-message-time="chat.lastMessage.createdAt"
                 />
             </menu>
         </nav>
