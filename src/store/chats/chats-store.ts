@@ -1,9 +1,21 @@
 import { defineStore } from 'pinia';
-import { Chat } from '../../shared/types/types.ts';
-import { ref } from 'vue';
+import { ChatDto } from '../../shared/types/types.ts';
+import { apiInstance } from '../../api/instance.ts';
+import { AxiosResponse } from 'axios';
 
-export const useChatsStore = defineStore('chats', () => {
-    const chats = ref<Chat[]>([]);
+interface State {
+    chats: ChatDto[];
+}
 
-    return { chats };
+export const useChatsStore = defineStore('chats', {
+    state: (): State => ({
+        chats: [],
+    }),
+    actions: {
+        async getChats() {
+            const response: AxiosResponse<ChatDto[]> = await apiInstance.get('/chats');
+
+            this.chats = response.data;
+        },
+    },
 });

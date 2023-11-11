@@ -1,7 +1,21 @@
-export interface Chat {
-    id: string;
+export interface UserDto {
+    username: string;
+}
+
+export interface MessageDto {
+    authorId: string;
+
+    chatId: string;
+
+    body: string;
+}
+
+export interface ChatDto {
     name: string;
-    lastMessageText: string;
-    lastMessageTime: string;
-    unreadCount: number;
+
+    description?: string;
+
+    participants: UserDto[];
+
+    lastMessage: MessageDto;
 }
