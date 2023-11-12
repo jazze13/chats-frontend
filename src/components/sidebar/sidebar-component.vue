@@ -1,32 +1,36 @@
 <script setup lang="ts">
-import InputUi from '../../ui/input/input-ui.vue';
-import { ref } from 'vue';
-import { Bars3Icon, MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
-import ChatComponent from '../../pages/chats/components/chat/chat-component.vue';
+import { onMounted, ref } from 'vue';
+import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
 import { useChatsStore } from '../../store/chats/chats-store.ts';
+import ChatItem from '../../pages/chats/components/chat/chat-item.vue';
+import SidebarBurger from '../sidebar-burger/sidebar-burger.vue';
+import InputComponent from '../../ui/input/input-component.vue';
 
 const searchQuery = ref<string>('');
 
 const chatsStore = useChatsStore();
+
+onMounted(() => {
+    chatsStore.getChats();
+})
+
 </script>
 
 <template>
     <aside>
         <header>
-            <button class="menu-button">
-                <bars3-icon />
-            </button>
+            <sidebar-burger />
 
-            <input-ui v-model="searchQuery" type="text" placeholder="Search">
+            <input-component v-model="searchQuery" type="text" placeholder="Search">
                 <template #icon>
                     <magnifying-glass-icon />
                 </template>
-            </input-ui>
+            </input-component>
         </header>
 
         <nav>
             <menu>
-                <chat-component
+                <chat-item
                     v-for="chat in chatsStore.chats"
                     :name="chat.name"
                     :unread-count="0"
@@ -40,42 +44,17 @@ const chatsStore = useChatsStore();
 
 <style lang="scss" scoped>
 @import '../../shared/scss/mixins';
-@import '../../shared/scss/variables';
 
 aside {
     width: 36rem;
     border-right: 1px solid var(--borders);
     height: 100%;
+    background: var(--bars-bg);
 
     header {
-        @include flex(center, stretch, 1.6rem);
-        padding: 0.8rem 1.6rem;
+        @include flex(center, stretch, .8rem);
+        padding: .8rem 1.6rem .8rem .8rem;
         border-bottom: 1px solid var(--borders);
-    }
-
-    .menu-button {
-        background: none;
-        border: none;
-        border-radius: 100%;
-        width: 4.2rem;
-        height: 4.2rem;
-        color: var(--text-high-emphasis);
-        transition:
-            $transition-normal background,
-            $transition-fast color;
-
-        svg {
-            height: 2.4rem;
-            width: 2.4rem;
-        }
-
-        &:hover {
-            background: var(--reaction-bg-user);
-        }
-
-        &:active {
-            color: $accent-primary;
-        }
     }
 }
 </style>

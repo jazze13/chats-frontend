@@ -65,13 +65,12 @@ $accent-info: $green500;
 
 $background-blur: 10pt;
 
-$transition-slow: .5s;
-$transition-mid-slow: .4s;
-$transition-normal: .3s;
-$transition-mid-fast: .2s;
+$transition-slow: .4s;
+$transition-mid-slow: .3s;
+$transition-normal: .2s;
 $transition-fast: .1s;
 
-html[theme="light"] {
+html[data-theme="light"] {
     --text-high-emphasis: #{$grey950};
     --text-low-emphasis: #{$grey500};
     --disabled: #{$grey400};
@@ -83,6 +82,7 @@ html[theme="light"] {
     --reaction-bg-you: #{$blue50};
     --link-bg: #{$grey100};
     --button-pressed-bg: #{$blue300};
+    --modal-shadow: rgba(0, 0, 0, 0.18);
 
     --highlight: #{$yellow100};
     --overlay-light: #fcfcfc;
@@ -91,7 +91,7 @@ html[theme="light"] {
     --overlay-android: #bebebe;
 }
 
-html[theme="dark"] {
+html[data-theme="dark"] {
     --text-high-emphasis: #{$grey50};
     --text-low-emphasis: #{$grey500};
     --disabled: #{$grey600};
@@ -103,6 +103,7 @@ html[theme="dark"] {
     --reaction-bg-you: #{$blue900};
     --link-bg: #{$blue950};
     --button-pressed-bg: #{$blue700};
+    --modal-shadow: black;
 
     --highlight: #{$yellow900};
     --overlay-light: #000000;
