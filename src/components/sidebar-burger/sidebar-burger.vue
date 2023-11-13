@@ -1,15 +1,9 @@
 <script lang="ts" setup>
-import { ArrowLeftOnRectangleIcon, AtSymbolIcon, Bars3Icon, MoonIcon, PencilIcon, UserGroupIcon } from '@heroicons/vue/24/outline';
+import { ArrowLeftOnRectangleIcon, ArrowRightOnRectangleIcon, AtSymbolIcon, Bars3Icon, MoonIcon, PencilIcon, UserGroupIcon } from '@heroicons/vue/24/outline';
 import { ref } from 'vue';
 import ThemeSwitcher from './components/theme-switcher/theme-switcher.vue';
-import { RouteComponent } from 'vue-router';
-
-interface DropdownItem {
-    icon: RouteComponent;
-    caption: string;
-    rightSlot?: RouteComponent;
-    onClick?: () => void;
-}
+import { useAuthStore } from '../../store/auth/auth-store';
+import UserAvatar from '../avatar/user-avatar.vue';
 
 const active = ref<boolean>(false);
 
@@ -17,30 +11,7 @@ const closeDropdown = () => {
     active.value = false;
 }
 
-const dropdownItems: DropdownItem[] = [
-    {
-        icon: AtSymbolIcon,
-        caption: 'Mentions',
-    },
-    {
-        icon: PencilIcon,
-        caption: 'New direct message',
-    },
-    {
-        icon: UserGroupIcon,
-        caption: 'New group',
-    },
-    {
-        icon: MoonIcon,
-        caption: 'Dark mode',
-        rightSlot: ThemeSwitcher,
-        onClick: () => ThemeSwitcher.$refs.checkbox?.click(),
-    },
-    {
-        icon: ArrowLeftOnRectangleIcon,
-        caption: 'Sign out',
-    }
-]
+const auth = useAuthStore();
 
 </script>
 
@@ -58,13 +29,55 @@ const dropdownItems: DropdownItem[] = [
             v-outside-click="closeDropdown"
         >
             <menu>
-                <li v-for="item in dropdownItems">
+                <template v-if="auth.isAuthenticated">
+                    <li class="user-info">
+                        <div class="avatar">
+                            <UserAvatar :fallback="auth.subject?.username.charAt(0) ?? 'P'" />
+                        </div>
+                        <p>{{ auth.subject?.username }}</p>
+                    </li>
+                    <li>
+                        <div class="icon">
+                            <AtSymbolIcon />
+                        </div>
+                        <p>Mentions</p>
+                    </li>
+                    <li>
+                        <div class="icon">
+                            <PencilIcon />
+                        </div>
+                        <p>New direct message</p>
+                    </li>
+                    <li>
+                        <div class="icon">
+                            <UserGroupIcon />
+                        </div>
+                        <p>New group</p>
+                    </li>
+                    <li v-if="auth.isAuthenticated">
+                        <div class="icon">
+                            <ArrowRightOnRectangleIcon />
+                        </div>
+                        <p>Sign out</p>
+                    </li>
+                </template>
+
+                <li v-else>
                     <div class="icon">
-                        <component :is="item.icon" />
+                        <ArrowLeftOnRectangleIcon />
                     </div>
-                    <p>{{ item.caption }}</p>
-                    <div class="right-slot" v-if="item.rightSlot">
-                        <component :is="item.rightSlot" />
+                    <p>
+                        Sign in
+                    </p>
+                </li>
+
+                <li>
+                    <div class="icon">
+                        <MoonIcon />
+                    </div>
+                    <p>Dark mode</p>
+                    <div class="right-slot">
+                        <ThemeSwitcher />
                     </div>
                 </li>
             </menu>
@@ -132,13 +145,23 @@ const dropdownItems: DropdownItem[] = [
         padding: 1.6rem;
         transition: $transition-normal;
 
-        &:hover {
+        &:not(.user-info):hover {
             background: var(--borders);
+        }
+
+        &.user-info {
+            padding: 1rem 1.6rem 1rem 1rem;
+            gap: 1rem;
         }
 
         .icon {
             width: 2.4rem;
             height: 2.4rem;
+        }
+
+        .avatar {
+            width: 3.6rem;
+            height: 3.6rem;
         }
 
         .right-slot {

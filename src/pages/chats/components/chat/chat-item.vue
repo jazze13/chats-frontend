@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import UserAvatar from '../../../../components/avatar/user-avatar.vue';
+
 defineProps<{
     name: string;
     lastMessageText: string;
@@ -10,8 +12,7 @@ defineProps<{
 
 <template>
     <li class="chat-item">
-        <img v-if="avatar" src="" alt="" class="avatar" />
-        <div v-else class="avatar-placeholder">{{ name.charAt(0).toUpperCase() }}</div>
+        <UserAvatar :fallback="name.charAt(0)" />
         <section>
             <h6 class="name">{{ name }}</h6>
             <div class="last-message">
@@ -38,23 +39,6 @@ defineProps<{
 
     &:hover {
         background: var(--borders);
-    }
-
-    .avatar {
-        width: 5rem;
-        height: 5rem;
-        border-radius: 100%;
-        flex-shrink: 0;
-
-        &-placeholder {
-            @extend .avatar;
-
-            @include headline-5;
-            @include flex(center, center);
-
-            background: $blue600;
-            color: $grey50;
-        }
     }
 
     .name {
