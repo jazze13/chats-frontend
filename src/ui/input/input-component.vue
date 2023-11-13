@@ -1,27 +1,28 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { RouteComponent } from 'vue-router';
 
 interface Props {
     placeholder?: string;
     type?: 'text' | 'password' | 'email' | 'number';
     modelValue: string;
+    icon?: RouteComponent;
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
     type: 'text',
 });
 
-const emit = defineEmits<{
-    input: [value: string];
-}>();
+const emit = defineEmits(['update:modelValue'])
+
+const value = computed({
+    get: () => props.modelValue,
+    set: (value) => emit('update:modelValue', value)
+})
 
 const inputField = ref<HTMLInputElement | null>(null);
 
 const isFocused = ref(false);
-
-const updateInput = (event: Event) => {
-    emit('input', (event.target as HTMLInputElement).value);
-};
 </script>
 
 <template>
@@ -31,18 +32,18 @@ const updateInput = (event: Event) => {
             'focused': isFocused,
         }"
     >
-        <span class="icon">
-            <slot name="icon" />
+        <span class="icon" v-if="!!icon">
+            <component :is="icon" />
         </span>
 
         <input
             @focus="isFocused = true"
             @blur="isFocused = false"
-            :value="modelValue"
-            @input="updateInput"
+            v-model="value"
             :placeholder="placeholder"
             ref="inputField"
             class="input-field"
+            :type="type"
         />
     </span>
 </template>

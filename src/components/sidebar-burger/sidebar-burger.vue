@@ -4,6 +4,7 @@ import { ref } from 'vue';
 import ThemeSwitcher from './components/theme-switcher/theme-switcher.vue';
 import { useAuthStore } from '../../store/auth/auth-store';
 import UserAvatar from '../avatar/user-avatar.vue';
+import { router } from '../../router/routes';
 
 const active = ref<boolean>(false);
 
@@ -62,7 +63,7 @@ const auth = useAuthStore();
                     </li>
                 </template>
 
-                <li v-else>
+                <li v-else @click="router.push('/signup')">
                     <div class="icon">
                         <ArrowLeftOnRectangleIcon />
                     </div>
@@ -126,9 +127,6 @@ const auth = useAuthStore();
     user-select: none;
     margin-top: 1.6rem;
     overflow: hidden;
-
-    opacity: 1;
-    transform: scale(1);
     transform-origin: top left;
     position: absolute;
     transition: $transition-normal ease-out;
@@ -136,6 +134,7 @@ const auth = useAuthStore();
     &:not(.active) {
         opacity: 0;
         transform: scale(.8);
+        visibility: hidden;
     }
 
     li {

@@ -21,11 +21,12 @@ onMounted(() => {
         <header>
             <sidebar-burger />
 
-            <input-component v-model="searchQuery" type="text" placeholder="Search">
-                <template #icon>
-                    <magnifying-glass-icon />
-                </template>
-            </input-component>
+            <input-component
+                v-model="searchQuery"
+                type="text"
+                placeholder="Search"
+                :icon="MagnifyingGlassIcon"
+            />
         </header>
 
         <nav>
