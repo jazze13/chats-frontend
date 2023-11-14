@@ -34,7 +34,7 @@ const schema = yup.object({
                         @update:modelValue="handleChange"
                         placeholder="Username"
                     />
-                    <span class="field-error">{{ errorMessage }}</span>
+                    <span class="field-error" v-if="!!errorMessage">{{ errorMessage }}</span>
                 </Field>
 
                 <Field name="password" v-slot="{ value, handleChange, errorMessage }">
@@ -44,7 +44,7 @@ const schema = yup.object({
                         placeholder="Password"
                         type="password"
                     />
-                    <span class="field-error">{{ errorMessage }}</span>
+                    <span class="field-error" v-if="!!errorMessage">{{ errorMessage }}</span>
                 </Field>
 
                 <Field name="passwordRepeat" v-slot="{ value, handleChange, errorMessage }">
@@ -54,7 +54,7 @@ const schema = yup.object({
                         placeholder="Repeat password"
                         type="password"
                     />
-                    <span class="field-error">{{ errorMessage }}</span>
+                    <span class="field-error" v-if="!!errorMessage">{{ errorMessage }}</span>
                 </Field>
 
                 <ButtonComponent> Sign up </ButtonComponent>

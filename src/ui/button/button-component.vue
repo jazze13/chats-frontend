@@ -7,6 +7,7 @@ defineProps<{
     danger?: boolean;
     icon?: RouteComponent;
     loading?: boolean;
+    disabled?: boolean;
 }>()
 
 const emit = defineEmits(['click'])
@@ -14,7 +15,15 @@ const emit = defineEmits(['click'])
 </script>
 
 <template>
-    <button @click="event => emit('click', event)">
+    <button
+        @click="event => emit('click', event)"
+        :class="{
+            primary,
+            outline,
+            danger,
+        }"
+        :disabled="disabled"
+    >
         <span class="icon" v-if="!!icon">
             <component :is="icon" />
         </span>
@@ -24,5 +33,20 @@ const emit = defineEmits(['click'])
 </template>
 
 <style lang="scss" scoped>
+@import "../../shared/scss/typography.scss";
+@import "../../shared/scss/variables.scss";
 
+button {
+    color: var(--text-high-emphasis);
+    border: none;
+    padding: .8rem 1.6rem;
+    background: transparent;
+    @include body-2;
+    border-radius: .8rem;
+    transition: $transition-normal;
+
+    &:hover {
+        background: var(--input-bg);
+    }
+}
 </style>
