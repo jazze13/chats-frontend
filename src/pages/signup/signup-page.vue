@@ -3,8 +3,11 @@ import InputComponent from '../../ui/input/input-component.vue';
 import { Form, Field } from 'vee-validate';
 import * as yup from 'yup';
 import ButtonComponent from '../../ui/button/button-component.vue';
+import { useAuthStore } from '../../store/auth/auth-store';
+import { router } from '../../router/routes';
+import { ref } from 'vue';
 
-const submit = () => {};
+const auth = useAuthStore();
 
 const schema = yup.object({
     username: yup
@@ -16,10 +19,27 @@ const schema = yup.object({
     password: yup
         .string()
         .required('This field is required')
-        .min(8, 'Password must be at least 4 characters long'),
+        .min(8, 'Password must be at least 8 characters long'),
 
     passwordRepeat: yup.string().oneOf([yup.ref('password')], "Password doesn't match"),
 });
+
+const serverError = ref<string | null>(null);
+
+const handleSubmit = ({ username, password }: Record<string, string>) => {
+    serverError.value = null
+    
+    auth.signup({ username, password }).then(
+        () => {
+            router.push('/');
+        },
+        (error: any) => {
+            console.log(1);
+
+            serverError.value = error.message;
+        }
+    )
+};
 </script>
 
 <template>
@@ -27,12 +47,13 @@ const schema = yup.object({
         <section class="form-wrapper">
             <h3>Sign up to Phobos</h3>
 
-            <Form @submit="submit" :validation-schema="schema">
+            <Form @submit="handleSubmit" :validation-schema="schema">
                 <Field name="username" v-slot="{ value, handleChange, errorMessage }">
                     <InputComponent
                         :modelValue="value"
                         @update:modelValue="handleChange"
                         placeholder="Username"
+                        class="field"
                     />
                     <span class="field-error" v-if="!!errorMessage">{{ errorMessage }}</span>
                 </Field>
@@ -43,6 +64,7 @@ const schema = yup.object({
                         @update:modelValue="handleChange"
                         placeholder="Password"
                         type="password"
+                        class="field"
                     />
                     <span class="field-error" v-if="!!errorMessage">{{ errorMessage }}</span>
                 </Field>
@@ -53,12 +75,16 @@ const schema = yup.object({
                         @update:modelValue="handleChange"
                         placeholder="Repeat password"
                         type="password"
+                        class="field"
                     />
                     <span class="field-error" v-if="!!errorMessage">{{ errorMessage }}</span>
                 </Field>
 
+                <span class="field-error" v-if="!!serverError">{{ serverError }}</span>
+
                 <ButtonComponent> Sign up </ButtonComponent>
             </Form>
+
         </section>
     </div>
 </template>
@@ -74,7 +100,8 @@ const schema = yup.object({
 }
 
 .form-wrapper {
-    max-width: 30rem;
+    display: block;
+    width: 30rem;
 
     @include flex(flex-start, center, 1rem, column);
 
@@ -84,6 +111,10 @@ const schema = yup.object({
 
     form {
         @include flex(flex-start, center, 1rem, column);
+    }
+
+    .field {
+        width: 100%;
     }
 
     .field-error {

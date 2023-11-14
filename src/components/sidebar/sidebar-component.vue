@@ -11,6 +11,7 @@ const searchQuery = ref<string>('');
 const chatsStore = useChatsStore();
 
 onMounted(() => {
+    // TODO ресет чатов при логине/разлогине
     chatsStore.getChats();
 })
 
@@ -35,8 +36,6 @@ onMounted(() => {
                     v-for="chat in chatsStore.chats"
                     :name="chat.name"
                     :unread-count="0"
-                    :last-message-text="chat.lastMessage.body"
-                    :last-message-time="chat.lastMessage.createdAt"
                 />
             </menu>
         </nav>

@@ -30,6 +30,7 @@ defineProps<{
 
             background: $blue600;
             color: $grey50;
+            text-transform: uppercase;
         }
     }
 </style>

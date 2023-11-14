@@ -70,6 +70,8 @@ $transition-mid-slow: .3s;
 $transition-normal: .2s;
 $transition-fast: .1s;
 
+$z-index-popup: 3;
+
 html[data-theme="light"] {
     --text-high-emphasis: #{$grey950};
     --text-low-emphasis: #{$grey500};

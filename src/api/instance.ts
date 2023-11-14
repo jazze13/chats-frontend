@@ -13,13 +13,13 @@ apiInstance.interceptors.request.use(
         return config;
     },
     (error) => {
-        console.error(error);
+        return Promise.reject(error);
     },
 );
 
 apiInstance.interceptors.response.use(
     (response) => response,
     (error) => {
-        console.error(error);
+        return Promise.reject(error);
     },
 );

@@ -3,8 +3,8 @@ import UserAvatar from '../../../../components/avatar/user-avatar.vue';
 
 defineProps<{
     name: string;
-    lastMessageText: string;
-    lastMessageTime: string;
+    // lastMessageText: string;
+    // lastMessageTime: string;
     unreadCount: number;
     avatar?: string;
 }>();
@@ -12,12 +12,14 @@ defineProps<{
 
 <template>
     <li class="chat-item">
-        <UserAvatar :fallback="name.charAt(0)" />
+        <div class="avatar">
+            <UserAvatar :fallback="name.charAt(0)" />
+        </div>
         <section>
             <h6 class="name">{{ name }}</h6>
             <div class="last-message">
-                <p class="body">{{ lastMessageText }}</p>
-                <time class="time">{{ lastMessageTime }}</time>
+                <!-- <p class="body">{{ lastMessageText }}</p>
+                <time class="time">{{ lastMessageTime }}</time> -->
             </div>
             <span class="unread-count" v-if="!!unreadCount">{{ unreadCount }}</span>
         </section>
@@ -39,6 +41,12 @@ defineProps<{
 
     &:hover {
         background: var(--borders);
+    }
+
+    .avatar {
+        height: 5rem;
+        width: 5rem;
+        flex-shrink: 0;
     }
 
     .name {

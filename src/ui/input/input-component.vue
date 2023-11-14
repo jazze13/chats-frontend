@@ -5,8 +5,9 @@ import { RouteComponent } from 'vue-router';
 interface Props {
     placeholder?: string;
     type?: 'text' | 'password' | 'email' | 'number';
-    modelValue: string;
+    modelValue?: string;
     icon?: RouteComponent;
+    customClass?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -30,6 +31,7 @@ const isFocused = ref(false);
         :class="{
             'input-visual-area': true,
             'focused': isFocused,
+            [customClass ?? '']: true,
         }"
     >
         <span class="icon" v-if="!!icon">

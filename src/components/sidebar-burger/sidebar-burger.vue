@@ -14,6 +14,13 @@ const closeDropdown = () => {
 
 const auth = useAuthStore();
 
+const logout = () => {
+    localStorage.removeItem('token');
+    // TODO запрос на логаут
+    auth.isAuthenticated = false;
+    auth.subject = null;
+}
+
 </script>
 
 <template>
@@ -55,7 +62,7 @@ const auth = useAuthStore();
                         </div>
                         <p>New group</p>
                     </li>
-                    <li v-if="auth.isAuthenticated">
+                    <li @click="logout">
                         <div class="icon">
                             <ArrowRightOnRectangleIcon />
                         </div>
@@ -130,6 +137,7 @@ const auth = useAuthStore();
     transform-origin: top left;
     position: absolute;
     transition: $transition-normal ease-out;
+    z-index: $z-index-popup;
     
     &:not(.active) {
         opacity: 0;
