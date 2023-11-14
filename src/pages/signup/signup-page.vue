@@ -1,36 +1,72 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useAuthStore } from '../../store/auth/auth-store';
 import InputComponent from '../../ui/input/input-component.vue';
+import { Form, Field } from 'vee-validate';
+import * as yup from 'yup';
+import ButtonComponent from '../../ui/button/button-component.vue';
 
-const auth = useAuthStore();
+const submit = () => {};
 
-const username = ref<string>('')
+const schema = yup.object({
+    username: yup
+        .string()
+        .required('This field is required')
+        .min(3, 'Username must be at least 3 characters long')
+        .trim(),
 
-const password = ref<string>('')
+    password: yup
+        .string()
+        .required('This field is required')
+        .min(8, 'Password must be at least 4 characters long'),
 
-const passwordRepeat = ref<string>('')
-
+    passwordRepeat: yup.string().oneOf([yup.ref('password')], "Password doesn't match"),
+});
 </script>
 
 <template>
     <div class="wrapper">
-
-        <div class="form-wrapper">
+        <section class="form-wrapper">
             <h3>Sign up to Phobos</h3>
-            <form>
-                <InputComponent v-model="username" placeholder="Username" />
-                <InputComponent v-model="password" placeholder="Password" type="password" />
-                <InputComponent v-model="passwordRepeat" placeholder="Repeat password" type="password" />
-            </form>
-        </div>
+
+            <Form @submit="submit" :validation-schema="schema">
+                <Field name="username" v-slot="{ value, handleChange, errorMessage }">
+                    <InputComponent
+                        :modelValue="value"
+                        @update:modelValue="handleChange"
+                        placeholder="Username"
+                    />
+                    <span class="field-error">{{ errorMessage }}</span>
+                </Field>
+
+                <Field name="password" v-slot="{ value, handleChange, errorMessage }">
+                    <InputComponent
+                        :modelValue="value"
+                        @update:modelValue="handleChange"
+                        placeholder="Password"
+                        type="password"
+                    />
+                    <span class="field-error">{{ errorMessage }}</span>
+                </Field>
+
+                <Field name="passwordRepeat" v-slot="{ value, handleChange, errorMessage }">
+                    <InputComponent
+                        :modelValue="value"
+                        @update:modelValue="handleChange"
+                        placeholder="Repeat password"
+                        type="password"
+                    />
+                    <span class="field-error">{{ errorMessage }}</span>
+                </Field>
+
+                <ButtonComponent> Sign up </ButtonComponent>
+            </Form>
+        </section>
     </div>
 </template>
 
 <style scoped lang="scss">
-@import "../../shared/scss/mixins.scss";
-@import "../../shared/scss/typography.scss";
-@import "../../shared/scss/variables.scss";
+@import '../../shared/scss/mixins.scss';
+@import '../../shared/scss/typography.scss';
+@import '../../shared/scss/variables.scss';
 
 .wrapper {
     @include flex(center, center);
@@ -38,7 +74,7 @@ const passwordRepeat = ref<string>('')
 }
 
 .form-wrapper {
-    max-width: 40rem;
+    max-width: 30rem;
 
     @include flex(flex-start, center, 1rem, column);
 
@@ -48,6 +84,12 @@ const passwordRepeat = ref<string>('')
 
     form {
         @include flex(flex-start, center, 1rem, column);
+    }
+
+    .field-error {
+        @include subtitle-1;
+        color: $accent-error;
+        margin-left: 1rem;
     }
 }
 </style>
