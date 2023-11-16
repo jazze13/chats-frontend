@@ -28,5 +28,20 @@ export const useAuthStore = defineStore('auth', {
                 },
             );
         },
+
+        async login(payload: SignupReqDto) {
+            apiInstance.post<SignupResDto>('auth/login', payload).then(
+                (response) => {
+                    localStorage.setItem('token', response.data.token);
+                    this.$state.isAuthenticated = true;
+                    this.$state.subject = response.data.subject;
+
+                    return Promise.resolve(response.data);
+                },
+                (error) => {
+                    return Promise.reject(error.response.data);
+                },
+            );
+        }
     },
 });

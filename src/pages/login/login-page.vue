@@ -13,15 +13,11 @@ const schema = yup.object({
     username: yup
         .string()
         .required('This field is required')
-        .min(3, 'Username must be at least 3 characters long')
         .trim(),
 
     password: yup
         .string()
         .required('This field is required')
-        .min(8, 'Password must be at least 8 characters long'),
-
-    passwordRepeat: yup.string().oneOf([yup.ref('password')], "Password doesn't match"),
 });
 
 const serverError = ref<string | null>(null);
@@ -29,7 +25,7 @@ const serverError = ref<string | null>(null);
 const handleSubmit = ({ username, password }: Record<string, string>) => {
     serverError.value = null
     
-    auth.signup({ username, password }).then(
+    auth.login({ username, password }).then(
         () => {
             router.push('/');
         },
@@ -43,10 +39,10 @@ const handleSubmit = ({ username, password }: Record<string, string>) => {
 <template>
     <div class="wrapper">
         <section class="form-wrapper">
-            <h3>Sign up to Phobos</h3>
+            <h3>Login to Phobos</h3>
 
-            <RouterLink to="/login" class="login-link">
-                Already have account?
+            <RouterLink to="/signup" class="login-link">
+                Don't have an account?
             </RouterLink>
 
             <Form @submit="handleSubmit" :validation-schema="schema">
@@ -71,20 +67,9 @@ const handleSubmit = ({ username, password }: Record<string, string>) => {
                     <span class="field-error" v-if="!!errorMessage">{{ errorMessage }}</span>
                 </Field>
 
-                <Field name="passwordRepeat" v-slot="{ value, handleChange, errorMessage }">
-                    <InputComponent
-                        :modelValue="value"
-                        @update:modelValue="handleChange"
-                        placeholder="Repeat password"
-                        type="password"
-                        class="field"
-                    />
-                    <span class="field-error" v-if="!!errorMessage">{{ errorMessage }}</span>
-                </Field>
-
                 <span class="field-error" v-if="!!serverError">{{ serverError }}</span>
 
-                <ButtonComponent> Sign up </ButtonComponent>
+                <ButtonComponent> Login </ButtonComponent>
             </Form>
 
         </section>

@@ -17,5 +17,9 @@ export const useChatsStore = defineStore('chats', {
 
             this.chats = response.data;
         },
+        
+        resetChats() {
+            this.chats = [];
+        }
     },
 });
