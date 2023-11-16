@@ -1,10 +1,10 @@
 export interface UserDto {
-    _id: string;
+    id: string;
     username: string;
 }
 
 export interface MessageDto {
-    _id: string;
+    id: string;
     author: UserDto;
     chatId: string;
     body: string;
@@ -13,7 +13,7 @@ export interface MessageDto {
 }
 
 export interface ChatDto {
-    _id: string;
+    id: string;
     name: string;
     description?: string;
     participants: UserDto[];

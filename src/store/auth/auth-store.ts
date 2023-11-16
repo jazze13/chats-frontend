@@ -15,7 +15,7 @@ export const useAuthStore = defineStore('auth', {
     }),
     actions: {
         async signup(payload: SignupReqDto) {
-            apiInstance.post<SignupResDto>('auth/signup', payload).then(
+            return apiInstance.post<SignupResDto>('auth/signup', payload).then(
                 (response) => {
                     localStorage.setItem('token', response.data.token);
                     this.$state.isAuthenticated = true;
@@ -30,7 +30,7 @@ export const useAuthStore = defineStore('auth', {
         },
 
         async login(payload: SignupReqDto) {
-            apiInstance.post<SignupResDto>('auth/login', payload).then(
+            return apiInstance.post<SignupResDto>('auth/login', payload).then(
                 (response) => {
                     localStorage.setItem('token', response.data.token);
                     this.$state.isAuthenticated = true;
@@ -42,6 +42,19 @@ export const useAuthStore = defineStore('auth', {
                     return Promise.reject(error.response.data);
                 },
             );
-        }
+        },
+
+        async getProfile() {
+            return apiInstance.get('auth/profile').then(
+                (response) => {
+                    this.$state.subject = response.data;
+
+                    return Promise.resolve(response.data);
+                },
+                (error) => {
+                    return Promise.reject(error.reponse.data);
+                }
+            )
+        },
     },
 });

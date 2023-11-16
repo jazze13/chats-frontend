@@ -15,7 +15,7 @@ onMounted(() => {
 
     if (token) {
         auth.isAuthenticated = true;
-        // TODO запрос сабжа
+        auth.getProfile();
     }
 })
 
