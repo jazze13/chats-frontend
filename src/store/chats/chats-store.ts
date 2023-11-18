@@ -16,10 +16,15 @@ export const useChatsStore = defineStore('chats', {
             const response: AxiosResponse<ChatDto[]> = await apiInstance.get('/chats');
 
             this.chats = response.data;
+            return response.data;
         },
-        
+
         resetChats() {
             this.chats = [];
-        }
+        },
+    },
+    getters: {
+        searchName: (state) => (query: string) =>
+            state.chats.filter((chat) => chat.name.toLowerCase().includes(query.toLowerCase())),
     },
 });

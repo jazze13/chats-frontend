@@ -56,5 +56,12 @@ export const useAuthStore = defineStore('auth', {
                 }
             )
         },
+
+        async logout() {
+            // TODO запрос логаут на бэк
+            localStorage.removeItem('token');
+            this.$state.isAuthenticated = false;
+            this.$state.subject = null;
+        }
     },
 });

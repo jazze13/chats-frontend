@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
 import { useChatsStore } from '../../store/chats/chats-store.ts';
-import ChatItem from '../../pages/chats/components/chat/chat-item.vue';
 import SidebarBurger from '../sidebar-burger/sidebar-burger.vue';
 import InputComponent from '../../ui/input/input-component.vue';
 import { useAuthStore } from '../../store/auth/auth-store';
 import { ChatDto } from '../../shared/types/types';
+import ChatItem from '../chat-item/chat-item.vue';
 
 const searchQuery = ref<string>('');
 
@@ -16,21 +16,17 @@ const authStore = useAuthStore();
 
 const chats = ref<ChatDto[]>([]);
 
-onMounted(async () => {
+watch(authStore, async () => {
     if (authStore.isAuthenticated) {
-        await chatsStore.getChats();
-
-        chats.value = chatsStore.chats;
-        
+        chats.value = await chatsStore.getChats();
     } else {
         chatsStore.resetChats();
     }
 });
 
-watch(searchQuery, (query) => {
-    chats.value = chatsStore.chats.filter(chat => chat.name.toLowerCase().includes(query.toLowerCase()))
-})
-
+watch(searchQuery, () => {
+    chats.value = chatsStore.searchName(searchQuery.value);
+});
 </script>
 
 <template>
@@ -48,7 +44,7 @@ watch(searchQuery, (query) => {
 
         <nav>
             <menu>
-                <chat-item v-for="chat in chats" :name="chat.name" :unread-count="0" />
+                <ChatItem v-for="chat in chats" :name="chat.name" :unread-count="0" />
             </menu>
         </nav>
     </aside>
@@ -60,8 +56,9 @@ watch(searchQuery, (query) => {
 aside {
     width: 36rem;
     border-right: 1px solid var(--borders);
-    height: 100%;
+    height: 100vh;
     background: var(--bars-bg);
+    flex-shrink: 0;
 
     header {
         @include flex(center, stretch, 0.8rem);

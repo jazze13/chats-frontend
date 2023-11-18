@@ -1,12 +1,12 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
-import ChatsPage from '../pages/chats/chats-page.vue';
 import SignupPage from '../pages/signup/signup-page.vue';
 import LoginPage from '../pages/login/login-page.vue';
+import ChatPage from '../pages/chat/chat-page.vue';
 
 const routes: RouteRecordRaw[] = [
     {
-        path: '/',
-        component: ChatsPage,
+        path: '/chats',
+        component: ChatPage,
     },
     {
         path: '/signup',
@@ -15,6 +15,10 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/login',
         component: LoginPage,
+    },
+    {
+        path: '/',
+        redirect: '/chats',
     }
 ];
 

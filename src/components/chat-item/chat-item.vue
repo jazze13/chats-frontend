@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-import UserAvatar from '../../../../components/avatar/user-avatar.vue';
+import UserAvatar from '../avatar/user-avatar.vue';
+
+
 
 defineProps<{
     name: string;
@@ -27,9 +29,9 @@ defineProps<{
 </template>
 
 <style lang="scss" scoped>
-@import '../../../../shared/scss/mixins';
-@import '../../../../shared/scss/typography';
-@import '../../../../shared/scss/variables';
+@import '../../shared/scss/mixins';
+@import '../../shared/scss/typography';
+@import '../../shared/scss/variables';
 
 .chat-item {
     @include flex(center, flex-start, 0.8rem);

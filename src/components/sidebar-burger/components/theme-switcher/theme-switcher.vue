@@ -1,20 +1,21 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { watch } from 'vue';
 import SwitchComponent from '../../../../ui/switch/switch-component.vue';
+import { useSettingsStore } from '../../../../store/settings/settings-store';
 
 const htmlNode = document.getElementsByTagName('html')[0];
 
-const darkTheme = ref<boolean>(htmlNode.dataset.theme === 'dark');
+const settings = useSettingsStore();
 
-watch(darkTheme, (darkTheme: boolean) => {
-    htmlNode.dataset.theme = darkTheme ? 'dark' : 'light';
-    localStorage.setItem('theme', darkTheme ? 'dark' : 'light');
+watch(settings, () => {
+    htmlNode.dataset.theme = settings.darkTheme ? 'dark' : 'light';
+    localStorage.setItem('theme', settings.darkTheme ? 'dark' : 'light');
 })
 
 </script>
 
 <template>
-    <switch-component v-model="darkTheme" />
+    <switch-component v-model="settings.darkTheme" />
 </template>
 
 <style scoped lang="scss"></style>
