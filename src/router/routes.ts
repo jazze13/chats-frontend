@@ -5,6 +5,10 @@ import ChatPage from '../pages/chat/chat-page.vue';
 
 const routes: RouteRecordRaw[] = [
     {
+        path: '/chats/:chatId',
+        component: ChatPage,
+    },
+    {
         path: '/chats',
         component: ChatPage,
     },

@@ -1,29 +1,30 @@
 <script lang="ts" setup>
+import { ChatDto } from '../../shared/types/types';
 import UserAvatar from '../avatar/user-avatar.vue';
 
-
-
 defineProps<{
-    name: string;
-    // lastMessageText: string;
-    // lastMessageTime: string;
-    unreadCount: number;
-    avatar?: string;
+    chat: ChatDto;
+    selected?: boolean;
 }>();
 </script>
 
 <template>
-    <li class="chat-item">
+    <li
+        :class="{
+            'chat-item': true,
+            'selected': selected,
+        }"
+    >
         <div class="avatar">
-            <UserAvatar :fallback="name.charAt(0)" />
+            <UserAvatar :fallback="chat.name.charAt(0)" />
         </div>
         <section>
-            <h6 class="name">{{ name }}</h6>
+            <h6 class="name">{{ chat.name }}</h6>
             <div class="last-message">
                 <!-- <p class="body">{{ lastMessageText }}</p>
                 <time class="time">{{ lastMessageTime }}</time> -->
             </div>
-            <span class="unread-count" v-if="!!unreadCount">{{ unreadCount }}</span>
+            <!-- <span class="unread-count" v-if="!!unreadCount">{{ unreadCount }}</span> -->
         </section>
     </li>
 </template>
@@ -41,8 +42,12 @@ defineProps<{
     user-select: none;
     transition: $transition-fast;
 
-    &:hover {
+    &.selected {
         background: var(--borders);
+    }
+
+    &:hover {
+        background: var(--input-bg);
     }
 
     .avatar {

@@ -33,8 +33,8 @@ const auth = useAuthStore();
 
         <menu
             :class="{
-                'content': true,
-                'active': active,
+                content: true,
+                active: active,
             }"
         >
             <template v-if="auth.isAuthenticated">

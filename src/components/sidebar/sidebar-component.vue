@@ -6,7 +6,7 @@ import SidebarBurger from '../sidebar-burger/sidebar-burger.vue';
 import InputComponent from '../../ui/input/input-component.vue';
 import { useAuthStore } from '../../store/auth/auth-store';
 import { ChatDto } from '../../shared/types/types';
-import ChatItem from '../chat-item/chat-item.vue';
+import ChatList from '../chat-list/chat-list.vue';
 
 const searchQuery = ref<string>('');
 
@@ -42,11 +42,7 @@ watch(searchQuery, () => {
             />
         </header>
 
-        <nav>
-            <menu>
-                <ChatItem v-for="chat in chats" :name="chat.name" :unread-count="0" />
-            </menu>
-        </nav>
+        <ChatList :chats="chats" />
     </aside>
 </template>
 
